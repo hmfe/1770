@@ -2,6 +2,8 @@ import React from 'react';
 import SearchForm from './components/SearchForm';
 import styled, { createGlobalStyle } from 'styled-components';
 
+import FancyDeleteButton from './components/FancyDeleteButton';
+
 const GlobalStyle = createGlobalStyle`
   body {
     height: 100%;
@@ -33,6 +35,7 @@ function App() {
     <>
       <GlobalStyle />
       <Main>
+        <FancyDeleteButton />
         <h1>Recipe Search</h1>
         <SearchForm />
       </Main>
