@@ -50,6 +50,12 @@ const DeleteSelectedHistoryButton = styled.button`
   }
 `;
 
+const TimestampSpan = styled.span`
+  color: #8c8c8c;
+  font-size: 12px;
+  line-height: 16px;
+`;
+
 const AutocompleteList = styled.ul`
   list-style: none;
   border: 2px solid #eee;
@@ -139,20 +145,23 @@ const SearchForm = () => {
       return (
         <SearchHistoryListItem key={searchItem.timestamp + index}>
           {searchItem.value}{' '}
-          <DeleteSelectedHistoryButton
-            aria-label='delete selected search history'
-            onClick={() => deleteSelectedHistory(searchItem, index)}
-          >
-            <svg
-              aria-label='delete icon'
-              xmlns='http://www.w3.org/2000/svg'
-              width='16'
-              height='16'
-              viewBox='0 0 24 24'
+          <TimestampSpan>
+            {searchItem.timestamp}
+            <DeleteSelectedHistoryButton
+              aria-label='delete selected search history'
+              onClick={() => deleteSelectedHistory(searchItem, index)}
             >
-              <path d='M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z' />
-            </svg>
-          </DeleteSelectedHistoryButton>
+              <svg
+                aria-label='delete icon'
+                xmlns='http://www.w3.org/2000/svg'
+                width='10'
+                height='10'
+                viewBox='0 0 24 24'
+              >
+                <path d='M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z' />
+              </svg>
+            </DeleteSelectedHistoryButton>
+          </TimestampSpan>
         </SearchHistoryListItem>
       );
     });
@@ -174,9 +183,11 @@ const SearchForm = () => {
   };
 
   const searchOnAutocompleteItemClick = text => {
+    const currentTimestamp = moment().format('LLL');
+
     setInputText(text);
     searchRecipesImmediately(text);
-    setSearchHistory([...searchHistory, text]);
+    setSearchHistory([...searchHistory, { value: text, timestamp: currentTimestamp }]);
   };
 
   const renderAutocompleteResults = () => {
